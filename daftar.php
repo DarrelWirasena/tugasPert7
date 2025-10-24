@@ -130,7 +130,7 @@
                 <div class="success-message">Registrasi Berhasil!</div>
             <?php elseif (isset($success) && !$success): ?>
                 <div style="text-align: center; color: #dc3545; padding: 20px;">
-                    <h3>ummur kurang dari 10</h3>
+                    <h3>UMMUR KURANG DARI 10</h3>
                     <p>hanya boleh 10 keatas.</p>
                 </div>
             <?php endif; ?>
@@ -147,14 +147,25 @@
                             </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($_SESSION['registrations'] as $i => $r): ?>
+                        <?php foreach ($_SESSION['registrations'] as $i => $r): 
+                            // Ambil umur dari data
+                            $umur = intval($r['umur']);
+                            // Loop sebanyak umur
+                            for ($j = 1; $j <= $umur; $j++):
+                                // Tampilkan hanya jika nomor genap DAN bukan 4 atau 8
+                                if ($j % 2 == 0 && $j != 4 && $j != 8):
+                        ?>
                             <tr>
-                                <td><?= $i + 1 ?></td>
+                                <td><?= $j ?></td>
                                 <td><?= e(($r['namaDepan'] ?? '') . ' ' . ($r['namaBelakang'] ?? '')) ?></td>
                                 <td><?= e(($r['umur'] ?? '') . ' tahun') ?></td>
                                 <td><?= e($r['asalKota']) ?></td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php 
+                                endif;
+                            endfor;
+                        endforeach; 
+                        ?>
                     </tbody>
                 </table>
                 <div style="text-align: center; margin-top: 10px;">
